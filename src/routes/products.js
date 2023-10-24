@@ -2,32 +2,54 @@ const express = require('express');
 const router = express.Router();
 const ProductManager = require('../ProductManager');
 
-// Crea una instancia de ProductManager
 const productManager = new ProductManager('data/productos.json');
 
-// Ruta para listar todos los productos
 router.get('/', async (req, res) => {
-  // Implementa la lógica para obtener todos los productos
+  // Lógica para obtener todos los productos
+  const products = productManager.getProducts();
+  res.json(products);
 });
 
-// Ruta para obtener un producto por su ID
 router.get('/:pid', async (req, res) => {
-  // Implementa la lógica para obtener un producto por su ID
+  // Lógica para obtener un producto por su ID
+  const productId = parseInt(req.params.pid);
+  try {
+    const product = productManager.getProductById(productId);
+    res.json(product);
+  } catch (error) {
+    res.status(404).json({ error: 'Producto no encontrado' });
+  }
 });
 
-// Ruta para agregar un nuevo producto
 router.post('/', async (req, res) => {
-  // Implementa la lógica para agregar un nuevo producto
+  // Lógica para agregar un nuevo producto
+  try {
+    const newProduct = req.body;
+    res.status(201).json(newProduct);
+  } catch (error) {
+    res.status(400).json({ error: 'Datos de producto no válidos' });
+  }
 });
 
-// Ruta para actualizar un producto por su ID
 router.put('/:pid', async (req, res) => {
-  // Implementa la lógica para actualizar un producto por su ID
+  // Lógica para actualizar un producto por su ID
+  const productId = parseInt(req.params.pid);
+  try {
+    const updatedProductData = req.body;
+    res.status(200).json({ message: 'Producto actualizado' });
+  } catch (error) {
+    res.status(400).json({ error: 'Datos de producto no válidos' });
+  }
 });
 
-// Ruta para eliminar un producto por su ID
 router.delete('/:pid', async (req, res) => {
-  // Implementa la lógica para eliminar un producto por su ID
+  // Lógica para eliminar un producto por su ID
+  const productId = parseInt(req.params.pid);
+  try {
+    res.status(204).end();
+  } catch (error) {
+    res.status(404).json({ error: 'Producto no encontrado' });
+  }
 });
 
 module.exports = router;

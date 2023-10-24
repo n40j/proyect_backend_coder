@@ -1,19 +1,24 @@
 const express = require('express');
 const router = express.Router();
 
-// Ruta para crear un nuevo carrito
 router.post('/', async (req, res) => {
-  // Implementa la lógica para crear un nuevo carrito
+  // Lógica para crear un nuevo carrito
+  res.status(201).json({ message: 'Carrito creado con éxito', cartId: 12345 });
 });
 
-// Ruta para listar los productos de un carrito por su ID
 router.get('/:cid', async (req, res) => {
-  // Implementa la lógica para listar los productos de un carrito por su ID
+  // Lógica para listar los productos de un carrito por su ID
+  const cartId = req.params.cid;
+  res.json({ cartId, products: ['producto1', 'producto2'] });
 });
 
-// Ruta para agregar un producto a un carrito
 router.post('/:cid/product/:pid', async (req, res) => {
-  // Implementa la lógica para agregar un producto a un carrito
+  // Lógica para agregar un producto a un carrito
+  const cartId = req.params.cid;
+  const productId = req.params.pid;
+  res.status(201).json({ message: 'Producto agregado al carrito con éxito' });
 });
 
 module.exports = router;
+
+
