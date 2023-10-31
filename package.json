@@ -2,23 +2,21 @@
     "name": "proyecto-backend-coder",
     "version": "1.0.0",
     "description": "Proyecto Coderhouse",
-    "main": "src/app.js",  
+    "main": "src/app.js",
     "scripts": {
-      "start": "node src/app.js"  
+        "start": "node src/app.js"
     },
     "dependencies": {
-      "express": "^4.17.1"
-    },
-    "devDependencies": {
-      
+        "express": "^4.18.2",
+        "express-handlebars": "^7.1.2",
+        "socket.io": "^4.7.2"
     },
     "engines": {
-      "node": ">=12.0.0"  
+        "node": ">=12.0.0"
     },
     "repository": {
-      "type": "git",
-      "url": "https://github.com/iUkra/proyect_backend_coder"
+        "type": "git",
+        "url": "https://github.com/iUkra/proyect_backend_coder"
     },
     "author": "iUkra"
-  }
-  
+}
