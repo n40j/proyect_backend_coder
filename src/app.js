@@ -7,6 +7,10 @@ const port = 8080;
 // Importa el modelo de Mongoose para Product
 const Product = require('./models/Product');
 
+// Configuración del motor de plantillas Handlebars
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/views'); // Directorio donde se encuentran las vistas
+
 app.use(express.json());
 app.use(express.static('public'));
 

@@ -10,8 +10,6 @@ class ProductManagerMongo {
     }
   }
 
-  // Implementar métodos para crear, actualizar, eliminar un producto, etc.
-  // Ejemplo:
   
   async addProduct(productData) {
     try {
@@ -22,7 +20,7 @@ class ProductManagerMongo {
     }
   }
 
-  // Otros métodos como updateProduct, deleteProduct, etc.
+  
 }
 
 module.exports = ProductManagerMongo;

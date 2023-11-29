@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-// URL de conexión a tu base de datos en MongoDB Atlas
+
 const mongoURI = process.env.MONGODB_URI;
 
 // Conexión a la base de datos
