@@ -1,32 +1,40 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
-const http = require('http').createServer(app); // Crea el servidor HTTP
-const io = require('socket.io')(http); // Inicializa Socket.io
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 const port = 8080;
 
-// Importa el modelo de Mongoose para Product
 const Product = require('./models/Product');
+const AuthManager = require('./utils/AuthManager');
 
-// Configuración del motor de plantillas Handlebars
 app.set('view engine', 'hbs');
-app.set('views', __dirname + '/views'); // Directorio donde se encuentran las vistas
+app.set('views', __dirname + '/views');
 
 app.use(express.json());
 app.use(express.static('public'));
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
+}));
 
-// Manejar la lista de productos con Mongoose
+app.use('/login', require('./routes/login'));
+app.use('/logout', require('./routes/logout'));
+app.use('/products', AuthManager.authenticateUser, require('./routes/products'));
+
 app.get('/', async (req, res) => {
   try {
     const products = await Product.find();
-    res.render('home', { products }); // Renderiza la vista 'home' con los productos
+    res.render('home', { products });
   } catch (error) {
     res.status(500).send('Error al obtener los productos');
   }
 });
 
-// Realiza operaciones para '/realtimeproducts' usando WebSocket y Mongoose
 io.on('connection', (socket) => {
   console.log('Usuario conectado');
+
   socket.on('disconnect', () => {
     console.log('Usuario desconectado');
   });
@@ -50,8 +58,6 @@ io.on('connection', (socket) => {
   });
 });
 
-// Escucha en el puerto especificado
 http.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });
-

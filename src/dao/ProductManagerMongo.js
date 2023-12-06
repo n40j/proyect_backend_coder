@@ -1,4 +1,4 @@
-const Product = require('../models/ProductModel'); // Importar el modelo de Mongoose para los productos
+const Product = require('../models/Product'); // Importar el modelo de Mongoose para los productos
 
 class ProductManagerMongo {
   async getAllProducts() {
