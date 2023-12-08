@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const AuthManager = require('../utils/AuthManager');
 
+router.get('/', (req, res) => {
+  // Renderizar la vista para iniciar sesión
+  res.render('login'); // Asegúrate de tener esta vista configurada
+});
+
 router.post('/', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -29,3 +34,4 @@ router.post('/signup', async (req, res) => {
 });
 
 module.exports = router;
+
