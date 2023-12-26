@@ -7,6 +7,9 @@ const app = express();
 const http = require('http').createServer(app);
 const port = 8080;
 
+// Reemplaza con la importación del modelo de usuario (User)
+const User = require('./models/User'); // Reemplaza con la ruta correcta
+
 // Configuración de Express
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
@@ -56,8 +59,10 @@ app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/register', require('./routes/register'));
 
-app.get('/', (req, res) => {
-  res.render('login'); // Renderiza la vista del formulario de inicio de sesión
+// Nueva ruta para /dashboard (agregada según tus consignas)
+app.get('/dashboard', (req, res) => {
+  // Renderiza el panel de control o la página del dashboard
+  res.render('dashboard'); // Asegúrate de tener esta vista configurada
 });
 
 http.listen(port, () => {

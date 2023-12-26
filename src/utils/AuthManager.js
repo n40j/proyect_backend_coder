@@ -32,7 +32,7 @@ class AuthManager {
         throw new Error('Credenciales inválidas');
       }
 
-      const token = jwt.sign({ userId: user._id }, 'tu_secreto_secreto', { expiresIn: '1h' });
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
       return token;
     } catch (error) {
@@ -42,7 +42,7 @@ class AuthManager {
 
   async verifyToken(token) {
     try {
-      const decoded = jwt.verify(token, 'tu_secreto_secreto');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const userId = decoded.userId;
 
       const user = await User.findById(userId);
@@ -64,21 +64,18 @@ class AuthManager {
         throw new Error('Acceso no autorizado. Token no proporcionado');
       }
 
-      const decoded = jwt.verify(token, 'tu_secreto_secreto');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const userId = decoded.userId;
 
-      // Ejemplo: Comprobar si el usuario existe en la base de datos
       const user = await User.findById(userId);
       if (!user) {
         throw new Error('Usuario no encontrado');
       }
 
-      // Ejemplo: Puedes almacenar el usuario en el objeto de solicitud (req) para su uso posterior
       req.user = user;
-
       next();
     } catch (error) {
-      res.status(401).json({ error: 'Acceso no autorizado' });
+      res.status(401).json({ error: error.message });
     }
   }
 }

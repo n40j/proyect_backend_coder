@@ -1,37 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const AuthManager = require('../utils/AuthManager');
+const passport = require('passport');
 
 router.get('/', (req, res) => {
-  // Renderizar la vista para iniciar sesión
-  res.render('login'); // Asegúrate de tener esta vista configurada
+  res.render('login'); // Renderiza la vista del formulario de inicio de sesión
 });
 
-router.post('/', async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const token = await AuthManager.loginUser(email, password);
-    res.status(200).json({ token });
-  } catch (error) {
-    res.status(401).json({ error: error.message });
-  }
-});
+router.post('/', passport.authenticate('local', {
+  successRedirect: '/dashboard', // Redirige al panel de control después de iniciar sesión
+  failureRedirect: '/login', // Redirige de vuelta a la página de inicio de sesión si falla la autenticación
+  failureFlash: true // Activa mensajes flash para mostrar errores de autenticación
+}));
 
 router.get('/signup', (req, res) => {
-  // Renderizar la vista para registrarse
-  res.render('signup'); // Asegúrate de tener esta vista configurada
-});
-
-// Agregar lógica para registrar un usuario
-router.post('/signup', async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    await AuthManager.registerUser(email, password);
-    res.redirect('/login'); // Redireccionar al login después del registro exitoso
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+  res.render('signup'); // Renderiza la vista del formulario de registro
 });
 
 module.exports = router;
-
