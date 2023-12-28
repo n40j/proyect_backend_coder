@@ -30,11 +30,15 @@ app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/register', require('./routes/register'));
 
-// Nueva ruta para /dashboard (agregada según tus consignas)
+// Nueva ruta para /dashboard 
 app.get('/dashboard', (req, res) => {
   // Renderiza el panel de control o la página del dashboard
-  res.render('dashboard'); // Asegúrate de tener esta vista configurada
+  res.render('dashboard'); 
 });
+
+// Importa y utiliza la ruta para las sesiones
+const sessionRoutes = require('./routes/session');
+app.use('/api/sessions', sessionRoutes);
 
 http.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
