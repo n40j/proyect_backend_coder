@@ -25,11 +25,11 @@ const userSchema = new mongoose.Schema({
   },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Cart', // Reemplaza 'Cart' con el nombre correcto de tu modelo de carrito
+    ref: 'Cart', 
   },
   role: {
     type: String,
-    default: 'usuario', // Por defecto, el rol es 'usuario'
+    default: 'user',
   },
 });
 
