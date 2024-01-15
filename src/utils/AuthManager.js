@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../dao/models/User');
 
 class AuthManager {
   async registerUser(email, password) {
