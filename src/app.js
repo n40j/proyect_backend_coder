@@ -6,7 +6,7 @@ const http = require('http').createServer(app);
 const port = 8080;
 
 // Reemplaza con la importación del modelo de usuario (User)
-const User = require('./models/User'); // Reemplaza con la ruta correcta
+const User = require('./dao/models/User'); // Reemplaza con la ruta correcta
 const configurePassport = require('./config/passport'); // Importa las estrategias de Passport
 
 // Configuración de Express
