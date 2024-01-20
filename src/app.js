@@ -8,6 +8,7 @@ const port = 8080;
 // Reemplaza con la importación del modelo de usuario (User)
 const User = require('./dao/models/User'); // Reemplaza con la ruta correcta
 const configurePassport = require('./config/passport'); // Importa las estrategias de Passport
+const ensureAuthenticated = require('./middleware/ensureAuthenticated'); // Importa el middleware de autenticación
 
 // Configuración de Express
 app.set('view engine', 'hbs');
@@ -31,9 +32,9 @@ app.use('/logout', require('./routes/logout'));
 app.use('/register', require('./routes/register'));
 
 // Nueva ruta para /dashboard 
-app.get('/dashboard', (req, res) => {
+app.get('/dashboard', ensureAuthenticated, (req, res) => {
   // Renderiza el panel de control o la página del dashboard
-  res.render('dashboard'); 
+  res.render('dashboard', { user: req.user }); 
 });
 
 // Importa y utiliza la ruta para las sesiones
