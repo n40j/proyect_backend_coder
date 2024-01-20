@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const CartManagerMongo = require('../dao/CartManagerMongo'); // Importar el nuevo manager para carritos con MongoDB
+const CartManagerMongo = require('../dao/CartManagerMongo'); 
 
 // Crear una instancia del gestor de carritos con MongoDB
 const cartManagerMongo = new CartManagerMongo();

@@ -1,4 +1,4 @@
-const Cart = require('../models/Cart'); // Importar el modelo de carrito
+const Cart = require('../models/Cart'); 
 
 class CartManagerMongo {
   async createCart() {

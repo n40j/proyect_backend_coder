@@ -5,9 +5,9 @@ const app = express();
 const http = require('http').createServer(app);
 const port = 8080;
 
-// Reemplaza con la importación del modelo de usuario (User)
-const User = require('./dao/models/User'); // Reemplaza con la ruta correcta
-const configurePassport = require('./config/passport'); // Importa las estrategias de Passport
+
+const User = require('./dao/models/User'); 
+const configurePassport = require('./config/passport'); 
 const ensureAuthenticated = require('./middleware/ensureAuthenticated'); // Importa el middleware de autenticación
 
 // Configuración de Express

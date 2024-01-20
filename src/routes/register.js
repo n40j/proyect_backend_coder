@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../dao/models/User'); // Asegúrate de importar el modelo de usuario
+const User = require('../dao/models/User'); 
 const bcrypt = require('bcrypt');
 
 router.get('/', (req, res) => {
-  res.render('register'); // Renderiza la vista del formulario de registro
+  res.render('register'); 
 });
 
 router.post('/', async (req, res) => {
