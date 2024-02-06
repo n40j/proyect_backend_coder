@@ -1,17 +1,42 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
+const winston = require('winston'); // Importa el paquete winston
+const { format } = winston;
+const { combine, timestamp, printf } = format;
+
 const app = express();
 const http = require('http').createServer(app);
 const port = 8080;
 
-const User = require('./dao/models/User'); 
-const configurePassport = require('./config/passport'); 
-const ensureAuthenticated = require('./middleware/ensureAuthenticated'); // Importa el middleware de autenticación
+// Función de middleware para verificar la autenticación
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login');
+};
 
-// Nuevos módulos agregados
-const mockingRoute = require('./routes/mockingRoute');  // Importa la ruta de mocking
-const errorHandler = require('./utils/errorHandler');  // Importa el manejador de errores
+// Configuración del logger
+const logger = winston.createLogger({
+  level: 'info',
+  format: combine(
+    timestamp(),
+    printf(({ level, message, timestamp }) => {
+      return `${timestamp} ${level}: ${message}`;
+    })
+  ),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'errors.log', level: 'error' })
+  ]
+});
+
+// Logger middleware
+app.use((req, res, next) => {
+  req.logger = logger;
+  next();
+});
 
 // Configuración de Express
 app.set('view engine', 'hbs');
@@ -26,9 +51,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Configuración de las estrategias de Passport
-configurePassport(); // Llama a la función de configuración de Passport
-
 // Rutas para el manejo de autenticación
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
@@ -40,15 +62,30 @@ app.get('/dashboard', ensureAuthenticated, (req, res) => {
   res.render('dashboard', { user: req.user }); 
 });
 
-// Ruta para productos de mocking
+// Importa la ruta para productos de mocking
+const mockingRoute = require('./routes/mockingRoute');
 app.use('/mockingproducts', mockingRoute);
 
 // Importa y utiliza la ruta para las sesiones
 const sessionRoutes = require('./routes/session');
 app.use('/api/sessions', sessionRoutes);
 
+// Endpoint para probar los logs
+app.get('/loggerTest', (req, res) => {
+  req.logger.debug('Este es un mensaje de debug');
+  req.logger.http('Este es un mensaje HTTP');
+  req.logger.info('Este es un mensaje de información');
+  req.logger.warning('Este es un mensaje de advertencia');
+  req.logger.error('Este es un mensaje de error');
+  req.logger.fatal('Este es un mensaje fatal');
+
+  // Mensaje de confirmación
+  res.send('Logs generados');
+});
+
 // Middleware de manejo de errores
-app.use(errorHandler); // Agregado: Usa el middleware de manejo de errores
+const { errorHandler } = require('./utils/errorHandler'); 
+app.use(errorHandler); 
 
 http.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);

@@ -1,7 +1,6 @@
 const errorDictionary = {
     PRODUCT_NOT_FOUND: 'Producto no encontrado',
     INVALID_PRODUCT_DATA: 'Datos del producto inválidos',
-    
 };
 
 function createError(code, details) {
@@ -11,7 +10,12 @@ function createError(code, details) {
     return error;
 }
 
+function errorHandler(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+}
+
 module.exports = {
     createError,
-    errorDictionary,
+    errorHandler, 
 };
