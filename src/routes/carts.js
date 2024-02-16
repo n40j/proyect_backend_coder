@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const CartManagerMongo = require('../dao/CartManagerMongo'); 
+const { checkProductOwnership } = require('../middleware/cartMiddleware'); 
 
 // Crear una instancia del gestor de carritos con MongoDB
 const cartManagerMongo = new CartManagerMongo();

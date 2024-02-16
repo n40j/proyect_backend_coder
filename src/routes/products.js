@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ProductManagerMongo = require('../dao/ProductManagerMongo');
 const { isAdmin } = require('../middleware/authorizationMiddleware'); 
+const { canDeleteProduct } = require('../middleware/authMiddleware'); 
 
 const productManagerMongo = new ProductManagerMongo();
 
@@ -57,7 +58,7 @@ router.put('/:pid', isAdmin, async (req, res) => {
   }
 });
 
-router.delete('/:pid', isAdmin, async (req, res) => {
+router.delete('/:pid', isAdmin, canDeleteProduct, async (req, res) => {
   const productId = req.params.pid;
   try {
     // Lógica para eliminar un producto por su ID
@@ -72,3 +73,4 @@ router.delete('/:pid', isAdmin, async (req, res) => {
 });
 
 module.exports = router;
+
