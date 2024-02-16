@@ -51,6 +51,17 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Ruta para la página de inicio
+app.get('/', (req, res) => {
+  // Redirecciona al usuario al panel de control si está autenticado
+  if (req.isAuthenticated()) {
+    res.redirect('/dashboard');
+  } else {
+    // Redirecciona al usuario a la página de inicio de sesión si no está autenticado
+    res.redirect('/login');
+  }
+});
+
 // Rutas para el manejo de autenticación
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
