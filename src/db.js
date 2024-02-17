@@ -7,10 +7,15 @@ const mongoURI = process.env.MONGODB_URI;
 const connectDB = async () => {
   try {
     await mongoose.connect(mongoURI);
-    //Manejadores de eventos para la conexión a la base de datos
-    console.log("Conexión establecida con la base de datos");
+
+    mongoose.connection.on('connected', () => {
+      console.log("Conexión establecida con la base de datos");
+    });
+
+    mongoose.connection.on('error', (error) => {
+      console.error(`Error de conexión a la base de datos: ${error.message}`);
+    });
   } catch (error) {
-    //Manejadores de eventos para la conexión a la base de datos
     console.error(`Error de conexión a la base de datos: ${error.message}`);
   }
 };

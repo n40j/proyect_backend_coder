@@ -28,7 +28,8 @@ exports.resetPassword = async (req, res) => {
         if (!user) {
             return res.status(400).json({ message: "El enlace ha expirado o es inválido" });
         }
-        user.password = password; // Actualizar la contraseña
+        // Asegúrate de almacenar la contraseña de manera segura
+        user.password = password;
         user.resetPasswordToken = undefined;
         user.resetPasswordExpires = undefined;
         await user.save();

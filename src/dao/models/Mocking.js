@@ -4,8 +4,7 @@ function generateMockProducts() {
         mockProducts.push({
             _id: `mockProductId${i}`,
             name: `Mock Product ${i}`,
-            price: Math.floor(Math.random() * 100) + 1,
-            
+            price: parseFloat((Math.random() * 1000).toFixed(2)), // Generar un precio entre 0 y 1000 con dos decimales
         });
     }
     return mockProducts;

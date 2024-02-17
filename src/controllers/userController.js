@@ -8,6 +8,7 @@ exports.changeUserRole = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
+        // Validar y autorizar cambios de rol según sea necesario
         user.role = newRole;
         await user.save();
         res.status(200).json({ message: "Rol de usuario actualizado exitosamente" });

@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     age: {
         type: Number,
         required: true,
+        validate: {
+            validator: Number.isInteger,
+            message: '{VALUE} no es un número entero.'
+        }
     },
     password: {
         type: String,
@@ -31,6 +35,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['user', 'premium'],
         default: 'user',
+        required: true,
     },
 });
 
@@ -49,11 +54,14 @@ userSchema.pre('save', async function (next) {
 });
 
 // Método para comparar contraseñas
-userSchema.methods.comparePassword = function(candidatePassword) {
-    return bcrypt.compare(candidatePassword, this.password);
+userSchema.methods.comparePassword = async function(candidatePassword) {
+    try {
+        return await bcrypt.compare(candidatePassword, this.password);
+    } catch (error) {
+        throw error;
+    }
 };
 
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-

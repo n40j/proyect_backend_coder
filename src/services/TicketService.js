@@ -1,7 +1,8 @@
-const Ticket = require('../dao/models/Ticket'); 
+const Ticket = require('../dao/models/Ticket');
+const ProductModel = require('../dao/models/Product'); // Agregado: Importar el modelo Product
 
 class TicketService {
-  async processPurchase(cartId, productsInCart) {
+  async processPurchase(cartId, productsInCart, purchaserEmail) { // Agregado: Parámetro purchaserEmail
     // Lógica para procesar la compra y generar el ticket
 
     // Verificar stock y realizar la compra
@@ -9,7 +10,7 @@ class TicketService {
     let totalAmount = 0;
 
     for (const productInfo of productsInCart) {
-      const product = await ProductModel.findById(productInfo.productId); // Ajusta según tu estructura de proyecto
+      const product = await ProductModel.findById(productInfo.productId);
 
       if (!product || product.stock < productInfo.quantity) {
         productsNotPurchased.push(productInfo.productId);
@@ -24,11 +25,10 @@ class TicketService {
     }
 
     // Crear el ticket con la información de la compra
-    const purchaserEmail = req.user.email; // Ajusta según tu estructura de proyecto
     const ticket = new Ticket({
       code: generateUniqueCode(),
       amount: totalAmount,
-      purchaser: purchaserEmail,
+      purchaser: purchaserEmail, // Utilizando el email proporcionado
     });
 
     try {

@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
-const winston = require('winston'); // Importa el paquete winston
+const winston = require('winston');
 const { format } = winston;
 const { combine, timestamp, printf } = format;
 
@@ -16,6 +16,11 @@ connectDB();
 // Importar e inicializar Passport
 const initPassport = require("./config/passport");
 initPassport();
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -53,11 +58,6 @@ app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
 app.use(express.json());
 app.use(express.static('public'));
-app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: false
-}));
 
 // Ruta para la página de inicio
 app.get('/', (req, res) => {
@@ -105,6 +105,12 @@ app.get('/loggerTest', (req, res) => {
 // Middleware de manejo de errores
 const { errorHandler } = require('./utils/errorHandler'); 
 app.use(errorHandler); 
+
+// Middleware para manejar errores en todas las rutas y middlewares
+app.use((err, req, res, next) => {
+  console.error('Error en la aplicación:', err);
+  res.status(500).send('Algo salió mal en el servidor');
+});
 
 http.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);

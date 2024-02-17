@@ -3,7 +3,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../dao/models/User');
-require('dotenv').config();
 
 async function initPassport() {
   // Configuración de la estrategia Local
@@ -17,11 +16,11 @@ async function initPassport() {
         try {
           const user = await User.findOne({ email });
           if (!user) {
-            return done(null, false, { message: 'Usuario no encontrado' });
+            return done(null, false, { message: 'Usuario no encontrado.' });
           }
           const isMatch = await user.comparePassword(password);
           if (!isMatch) {
-            return done(null, false, { message: 'Contraseña incorrecta' });
+            return done(null, false, { message: 'Contraseña incorrecta.' });
           }
           return done(null, user);
         } catch (error) {

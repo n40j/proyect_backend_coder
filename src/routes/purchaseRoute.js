@@ -14,9 +14,10 @@ router.post('/:cid/purchase', async (req, res) => {
     const { ticket, productsNotPurchased, productsPurchased } = await ticketService.processPurchase(cartId, productsInCart);
 
     // Actualizar el carrito asociado al usuario
-    
-    // req.user.cart.products = productsNotPurchased;
-    // await req.user.cart.save();
+    /*
+    req.user.cart.products = productsNotPurchased;
+    await req.user.cart.save();
+    */
 
     res.json({
       ticketId: ticket._id,
@@ -30,3 +31,4 @@ router.post('/:cid/purchase', async (req, res) => {
 });
 
 module.exports = router;
+

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const ProductManagerMongo = require('../dao/ProductManagerMongo');
-const { isAdmin } = require('../middleware/authorizationMiddleware'); 
-const { canDeleteProduct } = require('../middleware/authMiddleware'); 
+const { isAdmin } = require('../middleware/authorizationMiddleware');
+const { canDeleteProduct } = require('../middleware/authMiddleware');
 
 const productManagerMongo = new ProductManagerMongo();
 
@@ -73,4 +73,3 @@ router.delete('/:pid', isAdmin, canDeleteProduct, async (req, res) => {
 });
 
 module.exports = router;
-

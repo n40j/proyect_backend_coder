@@ -1,31 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Lista de Productos</title>
-</head>
-<body>
-  <h1>Lista de Productos</h1>
-  <ul>
-    {{#each products}}
-      <li>{{this.name}} - Precio: {{this.price}}</li>
-      <button onclick="agregarAlCarrito('{{this._id}}')">Agregar al Carrito</button>
-    {{/each}}
-  </ul>
+<script>
+  function agregarAlCarrito(productId) {
+    // Aquí deberías implementar la lógica para agregar el producto con ID productId al carrito
+    // Por ejemplo, podrías enviar una solicitud al servidor para agregar el producto al carrito
+    fetch(`/api/cart/add/${productId}`, { method: 'POST' })
+      .then(response => {
+        if (response.ok) {
+          alert('Producto agregado al carrito');
+        } else {
+          throw new Error('Error al agregar producto al carrito');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        alert('Error al agregar producto al carrito');
+      });
+  }
+</script>
 
-  <div>
-    {{#if hasPrevPage}}
-      <a href="/products?page={{prevPage}}&limit={{limit}}">Página Anterior</a>
-    {{/if}}
-
-    {{#if hasNextPage}}
-      <a href="/products?page={{nextPage}}&limit={{limit}}">Página Siguiente</a>
-    {{/if}}
-  </div>
-
-  <script>
-    function agregarAlCarrito(productId) {
-      // Lógica para agregar el producto con ID productId al carrito
-    }
-  </script>
-</body>
-</html>

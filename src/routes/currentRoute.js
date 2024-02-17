@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { isAdmin, isUser } = require('../utils/AuthManager');
-const UserRepository = require('../dao/models/User'); 
+const { isUser } = require('../middleware/authorizationMiddleware'); // Corregida la ruta del módulo
+const UserRepository = require('../dao/models/User');
 
 router.get('/current', isUser, async (req, res) => {
   try {

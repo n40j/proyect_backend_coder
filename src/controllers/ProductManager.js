@@ -35,6 +35,8 @@ class ProductManager {
   }
 
   addProduct(product) {
+    // Generar un ID único para el nuevo producto
+    product.id = Date.now().toString();
     // Agregar el producto y luego guardar los cambios
     this.products.push(product);
     this.saveProducts();
@@ -57,4 +59,3 @@ class ProductManager {
 }
 
 module.exports = ProductManager;
-
