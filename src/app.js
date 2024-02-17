@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
+const flash = require('connect-flash');
 const winston = require('winston');
 const { format } = winston;
 const { combine, timestamp, printf } = format;
@@ -23,6 +24,9 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Middleware de connect-flash
+app.use(flash());
 
 // Función de middleware para verificar la autenticación
 const ensureAuthenticated = (req, res, next) => {
