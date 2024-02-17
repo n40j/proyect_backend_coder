@@ -5,7 +5,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../dao/models/User');
 require('dotenv').config();
 
-module.exports = () => {
+async function initPassport() {
   // Configuración de la estrategia Local
   passport.use(
     new LocalStrategy(
@@ -50,4 +50,6 @@ module.exports = () => {
       }
     })
   );
-};
+}
+
+module.exports = initPassport;

@@ -36,21 +36,21 @@ const userSchema = new mongoose.Schema({
 
 // Antes de guardar el usuario, hasheamos la contraseña
 userSchema.pre('save', async function (next) {
-    const user = this;
-    if (!user.isModified('password')) {
+    if (!this.isModified('password')) {
         return next();
     }
-    const hashedPassword = await bcrypt.hash(user.password, 10);
-    user.password = hashedPassword;
-    next();
+    try {
+        const hashedPassword = await bcrypt.hash(this.password, 10);
+        this.password = hashedPassword;
+        next();
+    } catch (error) {
+        return next(error);
+    }
 });
 
 // Método para comparar contraseñas
-userSchema.methods.comparePassword = function(candidatePassword, callback) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return callback(err);
-        callback(null, isMatch);
-    });
+userSchema.methods.comparePassword = function(candidatePassword) {
+    return bcrypt.compare(candidatePassword, this.password);
 };
 
 const User = mongoose.model('User', userSchema);
