@@ -29,6 +29,7 @@ router.post('/', async (req, res) => {
     // Redirige a alguna página después del registro exitoso
     res.redirect('/login'); // Redirige a la página de inicio de sesión después del registro exitoso
   } catch (error) {
+    console.error('Error al registrar el usuario:', error); // Registrar el error específico
     res.status(500).json({ error: 'Error al registrar el usuario' });
   }
 });
