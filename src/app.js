@@ -5,6 +5,8 @@ const flash = require('connect-flash');
 const winston = require('winston');
 const { format } = winston;
 const { combine, timestamp, printf } = format;
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 const app = express();
 const http = require('http').createServer(app);
@@ -62,6 +64,24 @@ app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
 app.use(express.json());
 app.use(express.static('public'));
+
+// Definir especificaciones OpenAPI
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'API de Mi Aplicación',
+      version: '1.0.0',
+      description: 'Documentación de la API de Mi Aplicación',
+    },
+  },
+  apis: ['./routes/*.js'], // Ruta donde se encuentran tus archivos de rutas con las especificaciones
+};
+
+const specs = swaggerJsdoc(options);
+
+// Configuración de Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Ruta para la página de inicio
 app.get('/', (req, res) => {
