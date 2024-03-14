@@ -99,6 +99,12 @@ app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/register', require('./routes/register'));
 
+// Importa el nuevo enrutador de usuarios
+const userRouter = require('./userRouter');
+
+// Usa el nuevo enrutador de usuarios
+app.use('/api/users', userRouter);
+
 // Nueva ruta para /dashboard 
 app.get('/dashboard', ensureAuthenticated, (req, res) => {
   // Renderiza el panel de control o la página del dashboard

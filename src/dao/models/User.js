@@ -37,6 +37,16 @@ const userSchema = new mongoose.Schema({
         default: 'user',
         required: true,
     },
+    documents: [
+        {
+            name: String,
+            reference: String
+        }
+    ],
+    last_connection: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 // Antes de guardar el usuario, hasheamos la contraseña
