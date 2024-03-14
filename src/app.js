@@ -100,7 +100,7 @@ app.use('/logout', require('./routes/logout'));
 app.use('/register', require('./routes/register'));
 
 // Importa el nuevo enrutador de usuarios
-const userRouter = require('./userRouter');
+const userRouter = require('./routes/userRouter.js');
 
 // Usa el nuevo enrutador de usuarios
 app.use('/api/users', userRouter);

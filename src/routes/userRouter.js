@@ -7,3 +7,4 @@ const { isAdmin } = require('../middleware/authMiddleware');
 router.put('/:uid/premium', isAdmin, UserController.updateToPremium);
 
 module.exports = router;
+
