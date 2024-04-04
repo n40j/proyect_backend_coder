@@ -99,11 +99,12 @@ app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/register', require('./routes/register'));
 
-// Importa el nuevo enrutador de usuarios
-const userRouter = require('./routes/userRouter');
+// Importa el controlador de usuarios
+const UserController = require('./controllers/UserController.js');
 
-// Usa el nuevo enrutador de usuarios
-app.use('/api/users', userRouter);
+// Rutas para el manejo de usuarios
+app.put('/api/users/:uid/premium', ensureAuthenticated, UserController.updateToPremium);
+app.delete('/api/users/inactive', ensureAuthenticated, UserController.deleteInactiveUsers);
 
 // Nueva ruta para /dashboard 
 app.get('/dashboard', ensureAuthenticated, (req, res) => {
